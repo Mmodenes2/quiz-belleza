@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflejos Reales ✨ | Quiz con Emojis</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffdee9, #b5fffc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+      transition: background 1s ease;
+    }
+
+    /* FONDO CON BURBUJAS */
+    .bubbles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: rise 10s infinite ease-in;
+    }
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    /* QUIZ */
+    .quiz-container {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.4s ease;
+      animation: pop 0.8s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1 { color: #ff4081; font-size: 1.6rem; margin-bottom: 10px; }
+
+    .emoji-face {
+      font-size: 3rem;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .happy { transform: scale(1.2); filter: brightness(1.3); }
+    .neutral { transform: scale(1); }
+    .sad { transform: scale(0.9); filter: grayscale(0.7); }
+
+    button {
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 90%;
+      max-width: 300px;
+    }
+    button:hover {
+      background-color: #f50057;
+      transform: scale(1.05);
+    }
+
+    .question {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #444;
+    }
+
+    .progress {
+      height: 10px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #ff80ab, #81d4fa);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .hidden { display: none; }
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #ff80ab;
+      width: 80%;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bubbles" id="bubbleContainer"></div>
+
+  <div class="quiz-container">
+    <h1>Reflejos Reales ✨</h1>
+    <div id="emoji" class="emoji-face neutral">🙂</div>
+
+    <div id="nameStep">
+      <p>¡Hola! 👋 Antes de empezar, ¿cómo te llamas?</p>
+      <input type="text" id="userName" placeholder="Escribe tu nombre aquí" />
+      <button id="startBtn">Comenzar</button>
+    </div>
+
+    <div id="quizStep" class="hidden">
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <p class="question" id="questionText"></p>
+      <div id="options"></div>
+    </div>
+
+    <div id="resultStep" class="hidden">
+      <h2>Resultados 💫</h2>
+      <p id="resultText"></p>
+      <button id="restartBtn">Volver a jugar</button>
+    </div>
+  </div>
+
+  <script>
+    // --- FONDO DE BURBUJAS ---
+    const bubbleContainer = document.getElementById("bubbleContainer");
+    for (let i = 0; i < 20; i++) {
+      const bubble = document.createElement("div");
+      bubble.classList.add("bubble");
+      const size = Math.random() * 60 + 20 + "px";
+      bubble.style.width = size;
+      bubble.style.height = size;
+      bubble.style.left = Math.random() * 100 + "%";
+      bubble.style.animationDuration = 8 + Math.random() * 5 + "s";
+      bubble.style.animationDelay = Math.random() * 5 + "s";
+      bubbleContainer.appendChild(bubble);
+    }
+
+    // --- QUIZ ---
+    const quizData = [
+      {
+        question: "¿Subirías una foto con filtro para sentirte mejor? 📸",
+        options: [
+          { text: "Sí, me hace sentir más segur@", score: -1 },
+          { text: "Depende del día 😅", score: 0 },
+          { text: "No, prefiero mostrarme tal cual 😎", score: 1 }
+        ]
+      },
+      {
+        question: "Si ves a alguien con una apariencia diferente, piensas... 🤔",
+        options: [
+          { text: "Qué raro, no me gusta mucho 😬", score: -1 },
+          { text: "Cada persona tiene su estilo 😌", score: 1 },
+          { text: "No pienso nada, me da igual 🤷‍♀️", score: 0 }
+        ]
+      },
+      {
+        question: "¿Qué te hace sentir más guap@? 💕",
+        options: [
+          { text: "Cuando soy yo mism@", score: 1 },
+          { text: "Cuando sigo las modas", score: -1 },
+          { text: "Cuando recibo likes 👍", score: 0 }
+        ]
+      }
+    ];
+
+    const nameStep = document.getElementById("nameStep");
+    const quizStep = document.getElementById("quizStep");
+    const resultStep = document.getElementById("resultStep");
+    const questionText = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("options");
+    const progressBar = document.getElementById("progressBar");
+    const resultText = document.getElementById("resultText");
+    const userNameInput = document.getElementById("userName");
+    const emoji = document.getElementById("emoji");
+
+    let userName = "";
+    let currentQuestion = 0;
+    let totalScore = 0;
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      userName = userNameInput.value.trim();
+      if (!userName) {
+        alert("Por favor, escribe tu nombre 😊");
+        return;
+      }
+      nameStep.classList.add("hidden");
+      quizStep.classList.remove("hidden");
+      showQuestion();
+    });
+
+    function showQuestion() {
+      const question = quizData[currentQuestion];
+      questionText.textContent = question.question;
+      optionsContainer.innerHTML = "";
+      progressBar.style.width = ((currentQuestion) / quizData.length) * 100 + "%";
+
+      question.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt.text;
+        btn.onclick = () => selectOption(opt.score);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(score) {
+      totalScore += score;
+
+      // cambiar la carita según la respuesta
+      emoji.classList.remove("happy", "neutral", "sad");
+      if (score > 0) {
+        emoji.textContent = "😊";
+        emoji.classList.add("happy");
+      } else if (score === 0) {
+        emoji.textContent = "😐";
+        emoji.classList.add("neutral");
+      } else {
+        emoji.textContent = "😢";
+        emoji.classList.add("sad");
+      }
+
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        setTimeout(showQuestion, 800);
+      } else {
+        setTimeout(showResult, 800);
+      }
+    }
+
+    function showResult() {
+      quizStep.classList.add("hidden");
+      resultStep.classList.remove("hidden");
+      progressBar.style.width = "100%";
+
+      let message = "";
+      if (totalScore >= 2) {
+        message = `🌈 ${userName}, tienes una visión auténtica y segura de la belleza. ¡Sigue brillando sin filtros! 💖`;
+        emoji.textContent = "😄";
+        emoji.classList.add("happy");
+      } else if (totalScore <= -1) {
+        message = `🌱 ${userName}, recuerda que la verdadera belleza está en ser tú mism@. No dejes que los estándares te limiten. 💬`;
+        emoji.textContent = "😞";
+        emoji.classList.add("sad");
+      } else {
+        message = `💭 ${userName}, a veces dudamos, pero reflexionar ya es un gran paso. La belleza es diversidad y actitud. 🌈`;
+        emoji.textContent = "🙂";
+        emoji.classList.add("neutral");
+      }
+
+      resultText.textContent = message;
+    }
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      totalScore = 0;
+      currentQuestion = 0;
+      resultStep.classList.add("hidden");
+      nameStep.classList.remove("hidden");
+      userNameInput.value = "";
+      progressBar.style.width = "0%";
+      emoji.textContent = "🙂";
+      emoji.className = "emoji-face neutral";
+    });
+  </script>
+</body>
+</html>
