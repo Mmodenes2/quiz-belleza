@@ -10,7 +10,9 @@
     background: linear-gradient(135deg, #ffd6e8, #d6eaff);
     height: 100vh; margin: 0;
     display: flex; justify-content: center; align-items: center;
+    
   }
+  
   .screen {
     display: none;
     background: #fff; padding: 25px;
@@ -33,7 +35,7 @@
   .premium { color:#b80000; font-weight: bold; }
   .plus { color:#e8a300; font-weight: bold; }
   .basic { color:#009c32; font-weight: bold; }
-  @media (max-width: 320px) {
+  @media (max-width: 480px) {
   body {
     flex-direction: column;
     padding: 10px;
@@ -63,7 +65,7 @@
 <!-- BIENVENIDA -->
 <div id="welcome-screen" class="screen">
   <h2 id="welcome-text"></h2>
-  <p>Vamos a descubrir tu nivel de riesgo en el ✨Club de la Belleza Perfecta y Los Estandares Imposibles✨.</p>
+  <p>Vamos a explorar cuanto te influye el <em>✨Club de la Belleza Perfecta y Los Estándares Imposibles✨</em></p>
   <button id="btn-begin">Comenzar →</button>
 </div>
 
@@ -147,9 +149,7 @@
   <h3 id="club-level"></h3>
   <p id="message"></p>
   <!-- Botón de descarga -->
-  <a id="download-btn" href="#" target="_blank">
-    <button>Contrato de liberación</button>
-  </a>
+
 </div>
 
 <script>
@@ -166,8 +166,7 @@
 
   function startQuiz() {
     user = document.getElementById("username").value.trim();
-    if (!user) user = "amig@";
-    document.getElementById("welcome-text").textContent = "¡Bienvenid@, " + user + "!";
+    document.getElementById("welcome-text").textContent = "¡Bienvenid@ " + user + "!";
     show("welcome-screen");
   }
 
@@ -187,23 +186,23 @@
     const downloadBtn = document.getElementById("download-btn");
 
     if (score <= 6) {
-      emoji.textContent = "😄";
+      emoji.textContent = "🛡️";
       text.textContent = "¡Enhorabuena, " + user + "!";
-      club.innerHTML = "<span class='basic'>Eres cliente BÁSICO del Club de la Belleza Perfecta y Los Estandares Imposibles</span>";
-      msg.textContent = "Un ser humano autentico e inmune a las dictaduras estéticas.";
-      downloadBtn.href = "https://drive.google.com/file/d/1pWfb9dmwYPDujtBZqd5uGa6Z9ydndsKa/view?usp=sharing"; // tu PDF de Canva
+      club.innerHTML = "<span class='basic'>Tu nivel de influencia es BAJO</span>";
+      msg.textContent = "Eres un ser humano muy autentico y completamente inquebrantable ante las dictaduras estéticas.";
+      
     } else if (score <= 14) {
-      emoji.textContent = "😐";
-      text.textContent = "¡Rapido," + user + "!";
-      club.innerHTML = "<span class='plus'>Eres cliente PLUS del Club de la Belleza Perfecta y Los Estandares Imposibles</span>";
-      msg.textContent = "Te preocupa demasiado lo que los demas piensan de tí. Pero no te preocupes, aún puedes escapar de los parametros de belleza imposibles.";
-      downloadBtn.href = "https://drive.google.com/file/d/1pWfb9dmwYPDujtBZqd5uGa6Z9ydndsKa/view?usp=sharing"; // tu PDF de Canva
+      emoji.textContent = "🤳";
+      text.textContent = "¡Muy bién," + user + "!";
+      club.innerHTML = "<span class='plus'> Tu nivel de influencia es MODERADO</span>";
+      msg.textContent = "Tienes una gran autoestima pero te preocupa demasiado lo que los demas piensan de tí. Pero tranquil@, aún puedes escapar de los parametros de belleza imposibles.";
+ 
     } else {
-      emoji.textContent = "😢";
-      text.textContent = "¡Cuidado, " + user + "!";
-      club.innerHTML = "<span class='premium'>Eres cliente PREMIUM del Club de la Belleza Perfecta y Los Estandares Imposibles</span>";
-      msg.textContent = "Estas pagando un precio demasiado caro por encajar.";
-      downloadBtn.href = "https://drive.google.com/file/d/1pWfb9dmwYPDujtBZqd5uGa6Z9ydndsKa/view?usp=sharing"; // tu PDF de Canva
+      emoji.textContent = "🥀";
+      text.textContent = "¡Atención, " + user + "!";
+      club.innerHTML = "<span class='premium'> Tu nivel de influencia es ALTO</span>";
+      msg.textContent = "Estas pagando un precio demasiado caro por encajar. Pregúntate si la belleza externa define tu valor o si es tu autenticidad la que lo hace. ";
+     
     }
   }
 
