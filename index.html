@@ -35,20 +35,41 @@
   .premium { color:#b80000; font-weight: bold; }
   .plus { color:#e8a300; font-weight: bold; }
   .basic { color:#009c32; font-weight: bold; }
-  @media (max-width: 480px) {
+ @media (max-width: 480px) {
+
   body {
     flex-direction: column;
+    padding: 5px;            /* Menos padding */
+    zoom: 0.88;              /* Reduce ligero el tamaño global */
+  }
+
+  .screen {
+    width: 95%;              /* Más pequeño */
+    max-width: 320px;        /* Limita tamaño en móviles grandes */
+    padding: 12px;           /* Menos relleno */
+    border-radius: 15px;     /* Más compacto */
+  }
+
+  h2, h3 {
+    font-size: 18px;         /* Reducir títulos */
+  }
+
+  p {
+    font-size: 14px;         /* Reducir párrafos */
+  }
+
+  select {
+    font-size: 14px;
     padding: 10px;
   }
-  .screen {
-    width: 100%;
-    padding: 15px;
-  }
+
   button {
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;         /* Más pequeño */
+    padding: 10px 14px;
   }
 }
+
 </style>
 </head>
 <body>
